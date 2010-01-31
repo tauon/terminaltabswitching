@@ -4,21 +4,20 @@
 - (void)updateTabListMenu
 {
 	NSMenu* windowsMenu = [[NSApplication sharedApplication] windowsMenu];
-	
+
 	for(NSMenuItem* menuItem in [windowsMenu itemArray])
 	{
 		if([menuItem action] == @selector(selectRepresentedTabViewItem:))
 			[windowsMenu removeItem:menuItem];
 	}
-
 	NSArray* tabViewItems = [[self valueForKey:@"tabView"] tabViewItems];
 	for(size_t tabIndex = 0; tabIndex < [tabViewItems count]; ++tabIndex)
 	{
 		NSString* keyEquivalent = (tabIndex < 10) ? [NSString stringWithFormat:@"%d", (tabIndex+1)%10] : @"";
 		NSTabViewItem* tabViewItem = [tabViewItems objectAtIndex:tabIndex];
 		NSMenuItem* menuItem = [[NSMenuItem alloc] initWithTitle:[tabViewItem label]
-                                                        action:@selector(selectRepresentedTabViewItem:)
-                                                 keyEquivalent:keyEquivalent];
+														  action:@selector(selectRepresentedTabViewItem:)
+												   keyEquivalent:keyEquivalent];
 		[menuItem setRepresentedObject:tabViewItem];
 		[windowsMenu addItem:menuItem];
 		[menuItem release];
