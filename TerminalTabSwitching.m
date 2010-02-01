@@ -1,6 +1,12 @@
 #import "JRSwizzle.h"
 
-@implementation NSWindowController (Mine)
+@implementation NSWindowController(TerminalTabSwitching)
+- (void)selectRepresentedTabViewItem:(NSMenuItem*)item
+{
+	NSTabViewItem* tabViewItem = [item representedObject];
+	[[tabViewItem tabView] selectTabViewItem:tabViewItem];
+}
+
 - (void)updateTabListMenu
 {
 	NSMenu* windowsMenu = [[NSApplication sharedApplication] windowsMenu];
@@ -59,13 +65,9 @@
 	[self TerminalTabSwitching_mergeAllWindows:fp8];
 	[self updateTabListMenu];
 }
-
-- (void)selectRepresentedTabViewItem:(NSMenuItem*)item
-{
-	NSTabViewItem* tabViewItem = [item representedObject];
-	[[tabViewItem tabView] selectTabViewItem:tabViewItem];
-}
 @end
+
+#pragma mark -
 
 @interface TerminalTabSwitching : NSObject
 @end
@@ -73,8 +75,9 @@
 @implementation TerminalTabSwitching
 + (void)load
 {
-	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(windowDidBecomeMain:) withMethod:@selector(TerminalTabSwitching_windowDidBecomeMain:) error:NULL];
 	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(windowDidLoad) withMethod:@selector(TerminalTabSwitching_windowDidLoad) error:NULL];
+
+	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(windowDidBecomeMain:) withMethod:@selector(TerminalTabSwitching_windowDidBecomeMain:) error:NULL];
 	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(newTab:) withMethod:@selector(TerminalTabSwitching_newTab:) error:NULL];
 	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(tabView:didCloseTabViewItem:) withMethod:@selector(TerminalTabSwitching_tabView:didCloseTabViewItem:) error:NULL];
 	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(mergeAllWindows:) withMethod:@selector(TerminalTabSwitching_mergeAllWindows:) error:NULL];
