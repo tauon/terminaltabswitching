@@ -48,9 +48,9 @@
 	[self updateTabListMenu];
 }
 
-- (void)TerminalTabSwitching_closeTab:(id)fp8
+- (void)TerminalTabSwitching_tabView:(id)arg1 didCloseTabViewItem:(id)arg2
 {
-	[self TerminalTabSwitching_closeTab:fp8];
+	[self TerminalTabSwitching_tabView:arg1 didCloseTabViewItem:arg2];
 	[self updateTabListMenu];
 }
 
@@ -76,7 +76,7 @@
 	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(windowDidBecomeMain:) withMethod:@selector(TerminalTabSwitching_windowDidBecomeMain:) error:NULL];
 	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(windowDidLoad) withMethod:@selector(TerminalTabSwitching_windowDidLoad) error:NULL];
 	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(newTab:) withMethod:@selector(TerminalTabSwitching_newTab:) error:NULL];
-	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(closeTab:) withMethod:@selector(TerminalTabSwitching_closeTab:) error:NULL];
+	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(tabView:didCloseTabViewItem:) withMethod:@selector(TerminalTabSwitching_tabView:didCloseTabViewItem:) error:NULL];
 	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(mergeAllWindows:) withMethod:@selector(TerminalTabSwitching_mergeAllWindows:) error:NULL];
 
 	NSApplication *app = [NSApplication sharedApplication];
