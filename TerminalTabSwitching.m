@@ -69,6 +69,19 @@
 
 #pragma mark -
 
+@implementation NSTabViewItem(TerminalTabSwitching)
+- (void)TerminalTabSwitching_setReorderState:(int)arg1
+{
+	[self TerminalTabSwitching_setReorderState:arg1];
+	if(arg1 == 0) {
+		// FIXME what is the best way to grab current NSWindowController from self
+		[[[[NSApplication sharedApplication] mainWindow] windowController]updateTabListMenu];
+	}
+}
+@end
+
+#pragma mark -
+
 @interface TerminalTabSwitching : NSObject
 @end
 
@@ -81,6 +94,8 @@
 	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(newTab:) withMethod:@selector(TerminalTabSwitching_newTab:) error:NULL];
 	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(tabView:didCloseTabViewItem:) withMethod:@selector(TerminalTabSwitching_tabView:didCloseTabViewItem:) error:NULL];
 	[NSClassFromString(@"TTWindowController") jr_swizzleMethod:@selector(mergeAllWindows:) withMethod:@selector(TerminalTabSwitching_mergeAllWindows:) error:NULL];
+
+	[NSClassFromString(@"TTTabViewItem") jr_swizzleMethod:@selector(setReorderState:) withMethod:@selector(TerminalTabSwitching_setReorderState:) error:NULL];
 
 	NSApplication *app = [NSApplication sharedApplication];
 	NSWindow *mainWindow = [app mainWindow];
