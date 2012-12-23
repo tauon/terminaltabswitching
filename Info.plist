@@ -27,10 +27,10 @@
 		<dict>
 			<key>BundleIdentifier</key>
 			<string>com.apple.Terminal</string>
-			<key>MaxBundleVersion</key>
-			<string>299</string>
 			<key>MinBundleVersion</key>
 			<string>237</string>
+			<key>MaxBundleVersion</key>
+			<string>309</string>
 		</dict>
 	</array>
 </dict>
